@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @ResponseBody
-@RequestMapping("/api/policies")
+@RequestMapping("/service/policies")
 public class PolicyController {
 
     private final Log LOGGER = LogFactory.getLog(PolicyController.class);
@@ -31,7 +31,7 @@ public class PolicyController {
         this.policyService = policyService;
     }
 
-//    @CrossOrigin(origins = "http://127.0.0.1:5500/")
+//    @CrossOrigin(origins = "http://localhost:5500/")
     @GetMapping("/retrieve-policies")
     ResponseEntity<String> getPolicies(@RequestParam int tipoQ, @RequestParam int idPolicy) {
         List<PoliciesPojo> response = policyService.getPolicies(tipoQ, idPolicy);

@@ -22,7 +22,7 @@ public class ApipostgressqlApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:5500/").allowedHeaders("*").allowedMethods("*");
+				registry.addMapping("/api/v1/auth/**").allowedOrigins("http://localhost:5500/").allowedMethods("**").allowedHeaders("**");
 			}
 		};
 	}

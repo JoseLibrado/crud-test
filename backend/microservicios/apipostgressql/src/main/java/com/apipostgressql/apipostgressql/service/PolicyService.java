@@ -7,15 +7,16 @@ import com.apipostgressql.apipostgressql.pojo.DeletePolicy;
 import com.apipostgressql.apipostgressql.pojo.PoliciesPojo;
 import com.apipostgressql.apipostgressql.pojo.UpdatePolicy;
 import com.apipostgressql.apipostgressql.repository.PolicyRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.StoredProcedureQuery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.StoredProcedureQuery;
+
 import java.util.List;
 
 @Service
