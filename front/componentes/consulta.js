@@ -101,13 +101,14 @@ const registro = (id, cantidad, sku, producto, nombre, apellido, estatus, fecha 
 
         document.querySelector(".mensaje").remove()
 
-        console.log(id)
         btn_up.onclick = async () => {
-            const {mensaje, status} = await borrar_poliza(id)
+
+            const {mensaje, status} = await borrar_poliza(id, app.token.autorization)
         
             if ( status == "FAILURE" || status == "FAILED" ) {
     
-                document.querySelector(".mensaje").remove()
+                const msn = document.querySelector(".mensaje")
+                if ( msn ) msn.remove()
     
                 failed(mensaje, document.querySelector(".consultar"))
         
@@ -140,12 +141,15 @@ const registro = (id, cantidad, sku, producto, nombre, apellido, estatus, fecha 
         registro.classList.add("inhabil")
 
         btn_up.onclick = async () => {
+
             btn_up.disabled = true
-            const {mensaje, status} = await editar_poliza(id, campo.value) 
+            
+            const {mensaje, status} = await editar_poliza(id, campo.value, app.token.autorization) 
 
             if ( status == "FAILURE" || status == "FAILED" ) {
 
-                document.querySelector(".mensaje").remove()
+                const mens = document.querySelector(".mensaje")
+                if ( mens ) mens.remove()
 
                 failed(mensaje, document.querySelector(".consultar"))
         
@@ -158,11 +162,8 @@ const registro = (id, cantidad, sku, producto, nombre, apellido, estatus, fecha 
 
         }
 
-
     }
         
-        
-    
 }
 
 const obtenerValores = () => {
@@ -170,6 +171,7 @@ const obtenerValores = () => {
     const consultar = document.querySelector(".consultar")
 
     consultar.onclick = () => {
+
 
         const id_poliza = document.querySelector("#idpoliza")
          
@@ -180,6 +182,7 @@ const obtenerValores = () => {
             btn_desbloquear: consultar,
             valores: [id_poliza] 
         }
+
         peticion(obj)
 
 
@@ -187,8 +190,10 @@ const obtenerValores = () => {
 }
 
 const peticion = async (objeto) => {
-    
-    const {Data, Meta} = await app.consulta.consultar_poliza(0,(objeto.valores[0].value * 1))
+
+
+    const {Data, Meta} = await app.consulta_modelo.consultar_poliza(0,(objeto.valores[0].value * 1),app.token.autorization)
+
     if ( {Data, Meta} ) {
 
         mostrar_resultados({Data, Meta},objeto)

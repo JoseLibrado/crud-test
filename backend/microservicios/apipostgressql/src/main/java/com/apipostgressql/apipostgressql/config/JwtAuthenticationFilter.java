@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         jwt = authHeader.substring(7);
         name = jwtService.extractWebserviceName(jwt);
         if (name != null && SecurityContextHolder.getContext().getAuthentication() == null){
@@ -54,6 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }

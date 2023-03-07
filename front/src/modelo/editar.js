@@ -4,16 +4,18 @@ const editar_modelo = {
        
     */
 
-    editar_poliza: async (id_poliza, new_cantidad) => {
+    editar_poliza: async (id_poliza, new_cantidad, token) => {
 
         try {
-            let endpoint = `http://localhost:8080/app/api/policies/update-policy/${id_poliza}`
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
+            let endpoint = `http://localhost:8081/app/api/v1/policies/update-policy/${id_poliza}`
+           
+            let myHeaders = new Headers()
+            myHeaders.append("Authorization", "Bearer " + token)
+            myHeaders.append("Content-Type", "application/json")
 
-            var raw = JSON.stringify({
+            let raw = JSON.stringify({
             "amount": new_cantidad
-            });
+            })
 
             var requestOptions = {
             method: 'PUT',
@@ -42,7 +44,8 @@ const editar_modelo = {
         }
 
 
-    }
+    },
+    token : ""
 
 }
 

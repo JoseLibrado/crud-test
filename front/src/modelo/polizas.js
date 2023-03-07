@@ -2,25 +2,29 @@ const poliza_modelo = {
     crear: async function(sku, cantidad, idEmploye) {
 
         try {
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-
-            var raw = JSON.stringify({
+            
+            let raw = JSON.stringify({
             "sku": sku,
             "amout": cantidad,
             "idEmploye": idEmploye
-            });
+            })
+            
+            let myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + this.token)
+            myHeaders.append("Content-Type", "application/json")
 
-            var requestOptions = {
+            // console.log("modelo... ",this.token)
+
+            let requestOptions = {
             method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
-            };
-
-            const res = await fetch("http://localhost:8080/app/api/policies/create-policy", requestOptions)
+            }
+            
+            const res = await fetch("http://localhost:8081/app/api/v1/policies/create-policy", requestOptions)
             const data = await res.json()
-            console.log(data)
+            // console.log(data)
 
             
             if ( data.status == 400) throw new Error(data.error)
@@ -47,7 +51,8 @@ const poliza_modelo = {
         // .then(response => response.text())
         // .then(result => console.log(result))
         // .catch(error => console.log('error', error));
-    }
+    },
+    token : ""
 }
 
 export {

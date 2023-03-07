@@ -17,14 +17,5 @@ public class ApipostgressqlApplication {
 		SpringApplication.run(ApipostgressqlApplication.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/v1/auth/**").allowedOrigins("http://localhost:5500/").allowedMethods("**").allowedHeaders("**");
-			}
-		};
-	}
 
 }

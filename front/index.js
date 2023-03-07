@@ -1,5 +1,5 @@
 import {home} from './componentes/home.js'
-import {empleados} from './componentes/empleados.js'
+import {token} from './componentes/token.js'
 import {polizas} from './componentes/polizas.js'
 import {consulta} from './componentes/consulta.js'
 
@@ -18,7 +18,7 @@ const init = () => {
     home()
     empleadoss.onclick = () => {
         contenedor.innerHTML = ""
-        empleados()
+        token()
         empleadoss.classList.add("selected")
         registrar.classList.remove("class","selected")
         inventary.classList.remove("class","selected")

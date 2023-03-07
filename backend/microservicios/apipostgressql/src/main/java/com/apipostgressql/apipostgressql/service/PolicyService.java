@@ -1,7 +1,6 @@
 package com.apipostgressql.apipostgressql.service;
 
 import com.apipostgressql.apipostgressql.entity.CreatePolicyEntity;
-import com.apipostgressql.apipostgressql.entity.Policy;
 import com.apipostgressql.apipostgressql.pojo.DataPolizy;
 import com.apipostgressql.apipostgressql.pojo.DeletePolicy;
 import com.apipostgressql.apipostgressql.pojo.PoliciesPojo;

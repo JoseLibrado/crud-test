@@ -1,16 +1,14 @@
 package com.apipostgressql.apipostgressql.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/demo-controller")
 public class DemoController {
 
-    @GetMapping
-    public ResponseEntity<String> hola(){
-        return ResponseEntity.ok("Prueba de implementacion de token");
+    @PostMapping("/{nombre}")
+    public ResponseEntity<String> hola(@PathVariable String nombre){
+        return ResponseEntity.ok("Prueba de implementacion de token " + nombre);
     }
 }

@@ -4,13 +4,20 @@ const borrar_modelo = {
        
     */
 
-    borrar_poliza: async (id_poliza) => {
+    borrar_poliza: async (id_poliza, token) => {
 
+        console.log(token)
         try {
-            let endpoint = `http://localhost:8080/app/api/policies/delete-policy/${id_poliza}`
+            let endpoint = `http://localhost:8081/app/api/v1/policies/delete-policy/${id_poliza}`
+            
+            let myHeaders = new Headers()
+            myHeaders.append("Authorization", "Bearer " + token)
+            myHeaders.append("Content-Type", "application/json")
+
             let requestOptions = {
                 method: 'DELETE',
-                redirect: 'follow'
+                redirect: 'follow',
+                headers: myHeaders
             }
             
             const resp = await fetch( endpoint, requestOptions )
@@ -33,8 +40,9 @@ const borrar_modelo = {
         }
 
 
-    }
-
+    },
+    token : ""
+    
 }
 
 export {
