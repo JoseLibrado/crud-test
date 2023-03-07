@@ -31,10 +31,13 @@ public class PolicyController {
     @GetMapping("/retrieve-policies")
     ResponseEntity<String> getPolicies(@RequestParam int tipoQ, @RequestParam int idPolicy) {
         List<PoliciesPojo> response = policyService.getPolicies(tipoQ, idPolicy);
-        LOGGER.info("lista de polizas: " + response.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type","application/json");
+
+        LOGGER.info("Consulta de polizas ID##: " +  idPolicy);
 
         try {
-            return ResponseEntity.status(HttpStatus.OK).body("{\n" +
+            ResponseEntity<String> body = ResponseEntity.ok().headers(responseHeaders).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"OK\"\n" +
                     "    },\n" +
@@ -45,7 +48,7 @@ public class PolicyController {
                     "        },\n" +
                     "        \"Empleado\": {\n" +
                     "            \"Nombre\": \"" + response.get(0).getEmployee_first_name_data() + "\",\n" +
-                    "            \"Apellido\": \"" + response.get(0).getEmployee_last_name_data() +"\"\n" +
+                    "            \"Apellido\": \"" + response.get(0).getEmployee_last_name_data() + "\"\n" +
                     "        },\n" +
                     "        \"DetalleArticulo\": {\n" +
                     "            \"SKU\": \"" + response.get(0).getSku_data() + "\",\n" +
@@ -53,8 +56,10 @@ public class PolicyController {
                     "        }\n" +
                     "    }\n" +
                     "}");
+            LOGGER.info("Response de consulta polizas: " +  body.toString());
+            return body;
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("{\n" +
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).headers(responseHeaders).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"FAILURE\"\n" +
                     "    },\n" +
@@ -70,31 +75,32 @@ public class PolicyController {
     ResponseEntity<String> createPo(@RequestBody CreatePolicyEntity createPolicyEntity) {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type","application/json");
-//        responseHeaders.set("Access-Control-Allow-Origin","http://localhost:8000/");
         List<DataPolizy> response = policyService.createPolicy(createPolicyEntity);
-        LOGGER.info("poliza generada: " + response.toString());
+        LOGGER.info("Datos Request Guardado poliza: " + createPolicyEntity.toString());
         try {
-            return ResponseEntity.ok().headers(responseHeaders).body("{\n" +
+            ResponseEntity<String> body = ResponseEntity.ok().headers(responseHeaders).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"" + "OK" + "\"\n" +
                     "    },\n" +
                     "    \"Data\": {\n" +
                     "        \"Poliza\": {\n" +
-                    "            \"IDPoliza\": \""  + response.get(0).getId_policy_data() +"\",\n" +
-                    "            \"Cantidad\": \""  + response.get(0).getAmount_data() +"\"\n" +
+                    "            \"IDPoliza\": \"" + response.get(0).getId_policy_data() + "\",\n" +
+                    "            \"Cantidad\": \"" + response.get(0).getAmount_data() + "\"\n" +
                     "        },\n" +
                     "        \"Empleado\": {\n" +
-                    "            \"Nombre\": \""  + response.get(0).getEmployee_first_name_data() +"\",\n" +
-                    "            \"Apellido\": \""  + response.get(0).getEmployee_last_name_data() +"\"\n" +
+                    "            \"Nombre\": \"" + response.get(0).getEmployee_first_name_data() + "\",\n" +
+                    "            \"Apellido\": \"" + response.get(0).getEmployee_last_name_data() + "\"\n" +
                     "        },\n" +
                     "        \"DetalleArticulo\": {\n" +
-                    "            \"SKU\": \""  + response.get(0).getSku_data() +"\",\n" +
-                    "            \"Nombre\": \""  + response.get(0).getItem_name_data() +"\"\n" +
+                    "            \"SKU\": \"" + response.get(0).getSku_data() + "\",\n" +
+                    "            \"Nombre\": \"" + response.get(0).getItem_name_data() + "\"\n" +
                     "        }\n" +
                     "    }\n" +
                     "}");
+            LOGGER.info("Response guardado poliza: " + body.toString());
+            return body;
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("{\n" +
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).headers(responseHeaders).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"FAILURE\"\n" +
                     "    },\n" +
@@ -112,8 +118,10 @@ public class PolicyController {
         List<com.apipostgressql.apipostgressql.pojo.UpdatePolicy> response = policyService.updatePolicy(updatePolicy,id);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type","application/json");
+
+        LOGGER.info("Datos Request Actualizado poliza con ID ##: " + id + "Datos: " + updatePolicy.toString());
         try{
-            return ResponseEntity.ok().headers(responseHeaders).body("{\n" +
+            ResponseEntity<String> body = ResponseEntity.ok().headers(responseHeaders).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"OK\"\n" +
                     "    },\n" +
@@ -123,8 +131,11 @@ public class PolicyController {
                     "        }\n" +
                     "    }\n" +
                     "}\n");
+
+            LOGGER.info("Response Actualizado poliza: " + body.toString());
+            return body;
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("{\n" +
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).headers(responseHeaders).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"FAILURE\"\n" +
                     "    },\n" +
@@ -140,8 +151,10 @@ public class PolicyController {
     @DeleteMapping("/delete-policy/{id}")
     ResponseEntity<String> deletePolicy(@PathVariable int id){
         List<DeletePolicy> response = policyService.deletePolicy(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type","application/json");
         try {
-            return ResponseEntity.status(HttpStatus.OK).body("{\n" +
+            ResponseEntity<String> body = ResponseEntity.status(HttpStatus.OK).headers(headers).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"OK\"\n" +
                     "    },\n" +
@@ -151,8 +164,10 @@ public class PolicyController {
                     "        }\n" +
                     "    }\n" +
                     "}");
+            LOGGER.info("Response Borrar poliza ID##: "+ id + " ,cuerpo:" + body.toString());
+            return body;
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("{\n" +
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).headers(headers).body("{\n" +
                     "    \"Meta\": {\n" +
                     "        \"Status\": \"FAILURE\"\n" +
                     "    },\n" +

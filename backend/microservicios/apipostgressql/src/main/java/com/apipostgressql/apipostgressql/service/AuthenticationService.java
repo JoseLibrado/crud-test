@@ -7,6 +7,8 @@ import com.apipostgressql.apipostgressql.pojo.AuthenticationResponse;
 import com.apipostgressql.apipostgressql.pojo.RegisterRequest;
 import com.apipostgressql.apipostgressql.repository.WebserviceRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
+    private final Log LOGGER = LogFactory.getLog(AuthenticationService.class);
     private final PasswordEncoder passwordEncoder;
     private final WebserviceRepository repository;
     private final JwtService jwtService;
@@ -42,8 +46,10 @@ public class AuthenticationService {
         var user = repository.findByName(request.getName())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        var token = AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+        LOGGER.info("Token de acceso: " +token);
+        return token;
     }
 }
