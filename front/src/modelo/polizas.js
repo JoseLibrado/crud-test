@@ -23,11 +23,12 @@ const poliza_modelo = {
             }
             
             const res = await fetch("http://localhost:8081/app/api/v1/policies/create-policy", requestOptions)
-            const data = await res.json()
+            const data = await res.json().catch( e => {throw new Error("Genera un Token para ejecutar la operacion")} )
             // console.log(data)
 
-            
+            console.log(typeof resp)
             if ( data.status == 400) throw new Error(data.error)
+            // if ( data.Meta == undefined ) throw new Error("Genera un Token para ejecutar la operacion")
 
             if ( data.Meta.Status == "OK" ) return data
             if ( data.Meta.Status == "FAILURE" ) return data

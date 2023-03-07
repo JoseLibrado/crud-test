@@ -30,10 +30,9 @@ const consulta_modelo = {
             let endpoint = `http://localhost:8081/app/api/v1/policies/retrieve-policies?tipoQ=${tipo_consulta}&idPolicy=${id_poliza}`
 
             const resp = await fetch(endpoint, requestOptions)
-            const data = await resp.json()
-            
+            const data = await resp.json().catch( e => {throw new Error("Genera un Token para ejecutar la operacion")} )
+            console.log(data)
             if ( data.status == 400) throw new Error(data.error)
-            if ( !resp ) throw new Error("Genera un Token para ejecutar la operacion")
 
             if ( data.Meta.Status == "OK" ) return data
             if ( data.Meta.Status == "FAILURE" ) return data

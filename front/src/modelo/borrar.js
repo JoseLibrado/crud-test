@@ -21,7 +21,7 @@ const borrar_modelo = {
             }
             
             const resp = await fetch( endpoint, requestOptions )
-            const data = await resp.json()
+            const data = await resp.json().catch( e => "Genera un Token para ejecutar la operacion" )
 
             if ( data.status == 400) throw new Error(data.error)
 

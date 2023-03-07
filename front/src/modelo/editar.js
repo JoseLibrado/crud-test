@@ -25,10 +25,10 @@ const editar_modelo = {
             }
 
             const resp = await fetch( endpoint, requestOptions )
-            const data = await resp.json()
+            const data = await resp.json().catch( e => "Genera un Token para ejecutar la operacion" )
 
             if ( data.status == 400) throw new Error(data.error)
-
+            
             if ( data.Meta.Status == "OK" ) return data
             if ( data.Meta.Status == "FAILURE" ) return data
             if ( data.status != 200) throw new Error(data.error)
