@@ -7,22 +7,33 @@ const consulta_modelo = {
         tipo consulta = 1
         id_poliza = (id poliza existente en base de datos)
     */
-    consultar_poliza:  async (tipo_consulta, id_poliza) => {
+    consultar_poliza:  async (tipo_consulta, id_poliza, token) => {
 
         console.log(tipo_consulta, id_poliza)
         
         try {
-            let endpoint = `http://localhost:8080/app/api/policies/retrieve-policies?tipoQ=${tipo_consulta}&idPolicy=${id_poliza}`
 
-            var requestOptions = {
+            let myHeaders = new Headers()
+
+            myHeaders.append("Authorization", "Bearer " + token)
+            myHeaders.append("Content-Type", "application/json")
+
+            console.log("modelo... ",token)
+
+            let requestOptions = {
             method: 'GET',
+            headers: myHeaders,
+            // body: urlencoded,
             redirect: 'follow'
             };
+
+            let endpoint = `http://localhost:8081/app/api/v1/policies/retrieve-policies?tipoQ=${tipo_consulta}&idPolicy=${id_poliza}`
 
             const resp = await fetch(endpoint, requestOptions)
             const data = await resp.json()
             
             if ( data.status == 400) throw new Error(data.error)
+            if ( !resp ) throw new Error("Genera un Token para ejecutar la operacion")
 
             if ( data.Meta.Status == "OK" ) return data
             if ( data.Meta.Status == "FAILURE" ) return data
@@ -39,7 +50,8 @@ const consulta_modelo = {
         }
 
         
-    } 
+    },
+    token : ""
 
 }
 

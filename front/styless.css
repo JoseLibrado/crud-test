@@ -89,6 +89,19 @@ th {
 }
 
 
+/*------------- token container ---------*/
+.div-token {
+    margin-top: 30px;
+}
+.class-token {
+    width: 60%;
+    margin: 0 auto;
+}
+.token {
+    overflow: hidden;
+    text-align: left;
+    color: darkgreen;
+}
 /*------------- polizas container ---------*/
 .campos{
     padding-top: 30px;

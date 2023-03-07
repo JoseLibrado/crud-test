@@ -76,9 +76,14 @@ const polizas = () => {
         if ( confirmar(sku.value, cantidad.value, empleado.value) ) {
             
             confir.onclick = async () => {
-                
+
+                console.log(app.token.autorization)
+
+                app.poliza_modelo.token = app.token.autorization
+
                 confir.disabled = true
-                const data = await app.create.crear(sku.value,cantidad.value,empleado.value)
+                
+                const data = await app.poliza_modelo.crear(sku.value,cantidad.value,empleado.value)
                 console.log(data)
                 if( data ) {
                     if ( data.Meta.Status == "FAILURE" || data.Meta.Status == "FAILED"  ) {
